@@ -27,11 +27,11 @@ const navigation = (): HorizontalNavItemsType => [
     children: [
       {
         title: "All Festivals",
-        path: "/users/email-subscribers",
+        path: "/festivals",
       },
       {
         title: "Add new Festival",
-        path: "/users/blog-subscribers",
+        path: "/festivals/AddNewFestival",
       },
     ],
   },

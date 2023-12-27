@@ -21,14 +21,13 @@ import MenuItem from "@mui/material/MenuItem";
 import Icon from "src/@core/components/icon";
 
 // ** Utils Import
-import { deleteArtist } from "src/Client/request";
+import { deleteArtist, deleteFestival } from "src/Client/request";
 import toast from "react-hot-toast";
 import { IconButton, Menu } from "@mui/material";
-import EditBlogValidationForm from "src/views/forms/form-validation/EditArtistsValidationForm";
-import EditArtistsValidationForm from "src/views/forms/form-validation/EditArtistsValidationForm";
+import EditFestivalValidationForm from "src/views/forms/form-validation/EditFestivalValidationForm";
 
 const TableColumns = ({ row, setTrigger, trigger }: any) => {
-  const [selectedBlog, setSelectedBlog] = useState("");
+  const [selectedFestival, setselectedFestival] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [openEditDialog, setEditOpenDialog] = useState<boolean | any>(false);
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
@@ -52,18 +51,18 @@ const TableColumns = ({ row, setTrigger, trigger }: any) => {
 
   const [isLoadingDelete, setIsLoadingDelete] = useState(false); // Add loading state
 
-  const handleDeleteblog = (id: any) => {
+  const handleDeletefestival = (id: any) => {
     if (id) {
       setIsLoadingDelete(true); // Set loading state to true
-      deleteArtist(id).then((res: any) => {
+      deleteFestival(id).then((res: any) => {
         if (!res.error) {
           handleDialogClose();
-          toast.success(`Blog deleted successfully`, {
+          toast.success(`Festival deleted successfully`, {
             position: "top-right",
           });
         } else {
           handleDialogClose();
-          toast.error(`Failed to delete blog`, {
+          toast.error(`Failed to delete festival`, {
             position: "top-right",
           });
         }
@@ -78,66 +77,73 @@ const TableColumns = ({ row, setTrigger, trigger }: any) => {
       flex: 0.1,
       minWidth: 50,
       headerName: "Id",
-      field: "ArtistID",
+      field: "FestivalID",
     },
     {
       flex: 0.15,
-      minWidth: 130,
+      minWidth: 150,
       headerName: "Name",
       field: "Name",
     },
     {
       flex: 0.15,
-      minWidth: 130,
-      headerName: "Birth Place",
-      field: "Birthplace",
+      minWidth: 150,
+      headerName: "Genre",
+      field: "Genre",
     },
     {
       flex: 0.15,
       minWidth: 130,
-      headerName: "Website",
-      field: "Website",
+      headerName: "Month",
+      field: "Month",
     },
     {
       flex: 0.15,
       minWidth: 130,
-      headerName: "Facebook",
-      field: "Facebook",
+      headerName: "Festival",
+      field: "Festival",
     },
     {
       flex: 0.15,
       minWidth: 130,
-      headerName: "Instagram",
-      field: "Instagram",
+      headerName: "Land",
+      field: "Land",
     },
     {
       flex: 0.15,
       minWidth: 130,
-      headerName: "Youtube",
-      field: "Youtube",
+      headerName: "Locatie",
+      field: "Locatie",
     },
     {
       flex: 0.15,
       minWidth: 130,
-      headerName: "Soundcloud",
-      field: "Soundcloud",
+      headerName: "Specials",
+      field: "Specials",
     },
     {
       flex: 0.15,
       minWidth: 130,
-      headerName: "Spotify",
-      field: "Spotify",
+      headerName: "AgeCategory",
+      field: "AgeCategory",
     },
-
     {
-      flex: 0.3,
+      flex: 0.15,
       minWidth: 130,
-      field: "Description",
-      renderCell: (params: any) => (
-        <Typography variant="body2" sx={{ color: "text.primary" }}>
-          {params.row.Description}
-        </Typography>
-      ),
+      headerName: "PriceCategory",
+      field: "PriceCategory",
+    },
+    {
+      flex: 0.15,
+      minWidth: 130,
+      headerName: "TimeCategory",
+      field: "TimeCategory",
+    },
+    {
+      flex: 0.15,
+      minWidth: 130,
+      headerName: "IsDeleted",
+      field: "IsDeleted",
     },
     {
       flex: 0.2,
@@ -176,7 +182,6 @@ const TableColumns = ({ row, setTrigger, trigger }: any) => {
           >
             <MenuItem
               onClick={() => {
-                // router.push(`blogs/page/${params.row.id}/`)
                 handleEditDialogOpen(params.row);
                 handleMenuClose();
               }}
@@ -185,7 +190,7 @@ const TableColumns = ({ row, setTrigger, trigger }: any) => {
             </MenuItem>
             <MenuItem
               onClick={() => {
-                setSelectedBlog(params.row.ArtistID);
+                setselectedFestival(params.row.FestivalID);
                 handleDialogOpen();
                 handleMenuClose();
               }}
@@ -216,11 +221,11 @@ const TableColumns = ({ row, setTrigger, trigger }: any) => {
   return (
     <>
       <Card>
-        <CardHeader title="All Artists" />
+        <CardHeader title="All Festivals" />
         <DataGrid
           autoHeight
           rows={row || []}
-          getRowId={(row) => row.ArtistID}
+          getRowId={(row) => row.FestivalID}
           columns={columns}
           disableSelectionOnClick
           components={{
@@ -239,7 +244,7 @@ const TableColumns = ({ row, setTrigger, trigger }: any) => {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Are you sure you want to delete this blog?
+              Are you sure you want to delete this festival?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -248,7 +253,7 @@ const TableColumns = ({ row, setTrigger, trigger }: any) => {
               size="medium"
               variant="contained"
               onClick={() => {
-                handleDeleteblog(selectedBlog);
+                handleDeletefestival(selectedFestival);
                 handleDialogClose();
               }}
               autoFocus
@@ -264,11 +269,11 @@ const TableColumns = ({ row, setTrigger, trigger }: any) => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Edit Artists"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{"Edit Festival"}</DialogTitle>
           <DialogContent>
-            <EditArtistsValidationForm
-              artist={openEditDialog}
-              id={openEditDialog.ArtistID}
+            <EditFestivalValidationForm
+              festival={openEditDialog}
+              id={openEditDialog.FestivalID}
               handleEditDialogClose={handleEditDialogClose}
               setTrigger={setTrigger}
             />

@@ -90,30 +90,6 @@ export async function updateArtist(data: any) {
     });
 }
 
-export async function getBlogByID(id: any) {
-  const config = {
-    method: "get",
-    url: API_URL + `/blogs/content-of-blog-by-id?blog_id=${id}`,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
-  return axios(config)
-    .then((response) => {
-      if (response.data.responseCode == 200) {
-        return { data: response.data.response };
-      } else {
-        return { error: "Some error occured!:" + response.data.responseCode };
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-
-      return { error: "Some error occured!:" + error };
-    });
-}
-
 export async function deleteArtist(id: number) {
   const token = GetTokenAsync();
   const config = {
@@ -144,13 +120,14 @@ export async function deleteArtist(id: number) {
     });
 }
 
-//** users */
-export async function GetEmailSubscribers() {
+//** festivals */
+export async function GetFestivals() {
+  const token = GetTokenAsync();
   const config = {
     method: "get",
-    url: API_URL + "/users/email-subscribers",
+    url: API_URL + "/festivals/",
     headers: {
-      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
     },
   };
 
@@ -168,35 +145,96 @@ export async function GetEmailSubscribers() {
       return { error: "Some error occured!:" + error };
     });
 }
-export async function GetBlogSubscribers() {
-  const config = {
-    method: "get",
-    url: API_URL + "/users/blog-subscribers",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
-  return axios(config)
-    .then((response) => {
-      if (response.data.responseCode == 200) {
-        return { data: response.data.response };
-      } else {
-        return { error: "Some error occured!:" + response.data.responseCode };
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-
-      return { error: "Some error occured!:" + error };
-    });
-}
-
-export async function AddNewEmailSubscriber(data: any) {
+export async function AddFestival(data: any) {
+  const token = GetTokenAsync();
   const config = {
     method: "post",
-    url: API_URL + "/users/add-email-subscribers",
+    url: API_URL + "/festivals/add",
     data: data,
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  return axios(config)
+    .then((response) => {
+      console.log(response);
+      if (response.data.responseCode == 200) {
+        return { data: response.data.response };
+      } else {
+        return { error: "Some error occured!:" + response.data.responseCode };
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+
+      return { error: "Some error occured!:" + error };
+    });
+}
+export async function GetFestivalById(id: number) {
+  const token = GetTokenAsync();
+  const config = {
+    method: "get",
+    url: API_URL + "/festivals/festival-by-id?festival_Id=" + id,
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  return axios(config)
+    .then((response) => {
+      if (response.data.responseCode == 200) {
+        return { data: response.data.response };
+      } else {
+        return { error: "Some error occured!:" + response.data.responseCode };
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+
+      return { error: "Some error occured!:" + error };
+    });
+}
+
+export async function deleteFestival(id: number) {
+  const token = GetTokenAsync();
+  const config = {
+    method: "post",
+    url: API_URL + `/festivals/delete`,
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    data: {
+      festival_Id: id,
+      is_deleted: true,
+    },
+  };
+
+  return axios(config)
+    .then((response) => {
+      console.log(response);
+      if (response.data.responseCode == 200) {
+        return { data: response.data.response };
+      } else {
+        return { error: "Some error occured!:" + response.data.responseCode };
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+
+      return { error: "Some error occured!:" + error };
+    });
+}
+
+export async function updateFestival(data: any) {
+  const token = GetTokenAsync();
+  const config = {
+    method: "post",
+    url: API_URL + "/festivals/update",
+    data: data,
+    headers: {
+      Authorization: "Bearer " + token,
+    },
   };
 
   return axios(config)

@@ -57,7 +57,6 @@ const EditArtistsValidationForm = ({
   setTrigger,
 }: any) => {
   // ** States
-  const [loading, setLoading] = useState(false);
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
 
   // ** Hooks
@@ -111,377 +110,360 @@ const EditArtistsValidationForm = ({
 
   return (
     <Card>
-      {loading ? (
-        <CircularProgress
-          size={32}
-          color="inherit"
-          sx={{
-            marginTop: "55px",
-            marginBottom: "55px",
-            marginInline: "200px",
-          }}
-        />
-      ) : (
-        <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid container spacing={5}>
-              <Grid item xs={12} sm={12}>
-                <FormControl fullWidth>
-                  <Controller
-                    name="name"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: { value, onChange } }) => (
-                      <TextField
-                        value={value}
-                        label="Name"
-                        onChange={onChange}
-                        placeholder="Enter artist name"
-                        type="text"
-                        error={Boolean(errors.name)}
-                        aria-describedby="validation-basic-name"
-                      />
-                    )}
-                  />
-                  {errors.name && (
-                    <FormHelperText
-                      sx={{ color: "error.main" }}
-                      id="validation-basic-name"
-                    >
-                      This field is required
-                    </FormHelperText>
+      <CardContent>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={5}>
+            <Grid item xs={12} sm={12}>
+              <FormControl fullWidth>
+                <Controller
+                  name="name"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label="Name"
+                      onChange={onChange}
+                      placeholder="Enter artist name"
+                      type="text"
+                      error={Boolean(errors.name)}
+                      aria-describedby="validation-basic-name"
+                    />
                   )}
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl fullWidth>
-                  <Controller
-                    name="dob"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: { value, onChange } }) => (
-                      <ReactDatePicker
-                        selected={new Date()}
-                        id="basic-input"
-                        onChange={(date: Date) =>
-                          onChange(moment(date).format("YYYY-MM-DD:HH:MM:SS"))
-                        }
-                        placeholderText="Click to select a date"
-                        customInput={<CustomInput label="Date of birth" />}
-                      />
-                    )}
-                  />
-                  {errors.dob && (
-                    <FormHelperText
-                      sx={{ color: "error.main" }}
-                      id="validation-basic-name"
-                    >
-                      This field is required
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl fullWidth>
-                  <Controller
-                    name="birthplace"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: { value, onChange } }) => (
-                      <TextField
-                        value={value}
-                        label="Birth Place"
-                        onChange={onChange}
-                        placeholder="Enter artist's birthplace"
-                        type="text"
-                        error={Boolean(errors.birthplace)}
-                        aria-describedby="validation-basic-name"
-                      />
-                    )}
-                  />
-                  {errors.birthplace && (
-                    <FormHelperText
-                      sx={{ color: "error.main" }}
-                      id="validation-basic-name"
-                    >
-                      This field is required
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl fullWidth>
-                  <Controller
-                    name="generes"
-                    control={control}
-                    render={({ field: { value, onChange } }) => (
-                      <Autocomplete
-                        multiple
-                        disableCloseOnSelect
-                        options={GENRES_OPTIONS}
-                        id="autocomplete-checkboxes"
-                        getOptionLabel={(option: any) => option.title}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Genres"
-                            placeholder="Genres"
-                          />
-                        )}
-                        onChange={(_, newValue: any) => {
-                          let arr: any = [];
-                          newValue.map((item: any) => arr.push(item.value));
-                          onChange(arr);
-                        }}
-                        renderOption={(props, option, { selected }) => (
-                          <li {...props}>
-                            <Checkbox checked={selected} sx={{ mr: 2 }} />
-                            {option.title}
-                          </li>
-                        )}
-                      />
-                    )}
-                  />
-                  {errors.name && (
-                    <FormHelperText
-                      sx={{ color: "error.main" }}
-                      id="validation-basic-name"
-                    >
-                      This field is required
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl fullWidth>
-                  <Controller
-                    name="website"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: { value, onChange } }) => (
-                      <TextField
-                        value={value}
-                        label="Website"
-                        onChange={onChange}
-                        placeholder="Enter artist's website"
-                        type="text"
-                        error={Boolean(errors.website)}
-                        aria-describedby="validation-basic-name"
-                      />
-                    )}
-                  />
-                  {errors.website && (
-                    <FormHelperText
-                      sx={{ color: "error.main" }}
-                      id="validation-basic-name"
-                    >
-                      This field is required
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl fullWidth>
-                  <Controller
-                    name="facebook"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: { value, onChange } }) => (
-                      <TextField
-                        value={value}
-                        label="Facebook"
-                        onChange={onChange}
-                        placeholder="Enter artist's facebook"
-                        type="text"
-                        error={Boolean(errors.facebook)}
-                        aria-describedby="validation-basic-name"
-                      />
-                    )}
-                  />
-                  {errors.facebook && (
-                    <FormHelperText
-                      sx={{ color: "error.main" }}
-                      id="validation-basic-name"
-                    >
-                      This field is required
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl fullWidth>
-                  <Controller
-                    name="instagram"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: { value, onChange } }) => (
-                      <TextField
-                        value={value}
-                        label="Instagram"
-                        onChange={onChange}
-                        placeholder="Enter artist's instagram"
-                        type="text"
-                        error={Boolean(errors.instagram)}
-                        aria-describedby="validation-basic-name"
-                      />
-                    )}
-                  />
-                  {errors.instagram && (
-                    <FormHelperText
-                      sx={{ color: "error.main" }}
-                      id="validation-basic-name"
-                    >
-                      This field is required
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl fullWidth>
-                  <Controller
-                    name="youtube"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: { value, onChange } }) => (
-                      <TextField
-                        value={value}
-                        label="Youtube"
-                        onChange={onChange}
-                        placeholder="Enter artist's youtube"
-                        type="text"
-                        error={Boolean(errors.youtube)}
-                        aria-describedby="validation-basic-name"
-                      />
-                    )}
-                  />
-                  {errors.youtube && (
-                    <FormHelperText
-                      sx={{ color: "error.main" }}
-                      id="validation-basic-name"
-                    >
-                      This field is required
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl fullWidth>
-                  <Controller
-                    name="soundcloud"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: { value, onChange } }) => (
-                      <TextField
-                        value={value}
-                        label="Soundcloud"
-                        onChange={onChange}
-                        placeholder="Enter artist's soundcloud"
-                        type="text"
-                        error={Boolean(errors.soundcloud)}
-                        aria-describedby="validation-basic-name"
-                      />
-                    )}
-                  />
-                  {errors.soundcloud && (
-                    <FormHelperText
-                      sx={{ color: "error.main" }}
-                      id="validation-basic-name"
-                    >
-                      This field is required
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl fullWidth>
-                  <Controller
-                    name="spotify"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: { value, onChange } }) => (
-                      <TextField
-                        value={value}
-                        label="Spotify"
-                        onChange={onChange}
-                        placeholder="Enter artist's spotify"
-                        type="text"
-                        error={Boolean(errors.spotify)}
-                        aria-describedby="validation-basic-name"
-                      />
-                    )}
-                  />
-                  {errors.spotify && (
-                    <FormHelperText
-                      sx={{ color: "error.main" }}
-                      id="validation-basic-name"
-                    >
-                      This field is required
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl fullWidth>
-                  <Controller
-                    name="description"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: { value, onChange } }) => (
-                      <TextField
-                        value={value}
-                        label="Description"
-                        onChange={onChange}
-                        placeholder="Enter artist's description"
-                        type="text"
-                        error={Boolean(errors.description)}
-                        aria-describedby="validation-basic-name"
-                      />
-                    )}
-                  />
-                  {errors.description && (
-                    <FormHelperText
-                      sx={{ color: "error.main" }}
-                      id="validation-basic-name"
-                    >
-                      This field is required
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                style={{ position: "relative", marginTop: "90px" }}
-              >
-                {errors.admin && (
+                />
+                {errors.name && (
                   <FormHelperText
-                    sx={{ color: "error.main", fontSize: 14, marginBottom: 2 }}
-                    id=""
+                    sx={{ color: "error.main" }}
+                    id="validation-basic-name"
                   >
-                    {!!errors.admin.message}
+                    This field is required
                   </FormHelperText>
                 )}
-                <div style={{ position: "relative" }}>
-                  <Button
-                    size="medium"
-                    type="submit"
-                    variant="contained"
-                    disabled={isLoadingSubmit}
-                  >
-                    {isLoadingSubmit ? (
-                      <CircularProgress size={24} color="inherit" />
-                    ) : (
-                      "Save"
-                    )}
-                  </Button>
-                </div>
-              </Grid>
+              </FormControl>
             </Grid>
-          </form>
-        </CardContent>
-      )}
+            <Grid item xs={12} sm={12}>
+              <FormControl fullWidth>
+                <Controller
+                  name="dob"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <ReactDatePicker
+                      selected={new Date()}
+                      id="basic-input"
+                      onChange={(date: Date) =>
+                        onChange(moment(date).format("YYYY-MM-DD:HH:MM:SS"))
+                      }
+                      placeholderText="Click to select a date"
+                      customInput={<CustomInput label="Date of birth" />}
+                    />
+                  )}
+                />
+                {errors.dob && (
+                  <FormHelperText
+                    sx={{ color: "error.main" }}
+                    id="validation-basic-name"
+                  >
+                    This field is required
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormControl fullWidth>
+                <Controller
+                  name="birthplace"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label="Birth Place"
+                      onChange={onChange}
+                      placeholder="Enter artist's birthplace"
+                      type="text"
+                      error={Boolean(errors.birthplace)}
+                      aria-describedby="validation-basic-name"
+                    />
+                  )}
+                />
+                {errors.birthplace && (
+                  <FormHelperText
+                    sx={{ color: "error.main" }}
+                    id="validation-basic-name"
+                  >
+                    This field is required
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormControl fullWidth>
+                <Controller
+                  name="generes"
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <Autocomplete
+                      multiple
+                      disableCloseOnSelect
+                      options={GENRES_OPTIONS}
+                      id="autocomplete-checkboxes"
+                      getOptionLabel={(option: any) => option.title}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Genres"
+                          placeholder="Genres"
+                        />
+                      )}
+                      onChange={(_, newValue: any) => {
+                        let arr: any = [];
+                        newValue.map((item: any) => arr.push(item.value));
+                        onChange(arr);
+                      }}
+                      renderOption={(props, option, { selected }) => (
+                        <li {...props}>
+                          <Checkbox checked={selected} sx={{ mr: 2 }} />
+                          {option.title}
+                        </li>
+                      )}
+                    />
+                  )}
+                />
+                {errors.name && (
+                  <FormHelperText
+                    sx={{ color: "error.main" }}
+                    id="validation-basic-name"
+                  >
+                    This field is required
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormControl fullWidth>
+                <Controller
+                  name="website"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label="Website"
+                      onChange={onChange}
+                      placeholder="Enter artist's website"
+                      type="text"
+                      error={Boolean(errors.website)}
+                      aria-describedby="validation-basic-name"
+                    />
+                  )}
+                />
+                {errors.website && (
+                  <FormHelperText
+                    sx={{ color: "error.main" }}
+                    id="validation-basic-name"
+                  >
+                    This field is required
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormControl fullWidth>
+                <Controller
+                  name="facebook"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label="Facebook"
+                      onChange={onChange}
+                      placeholder="Enter artist's facebook"
+                      type="text"
+                      error={Boolean(errors.facebook)}
+                      aria-describedby="validation-basic-name"
+                    />
+                  )}
+                />
+                {errors.facebook && (
+                  <FormHelperText
+                    sx={{ color: "error.main" }}
+                    id="validation-basic-name"
+                  >
+                    This field is required
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormControl fullWidth>
+                <Controller
+                  name="instagram"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label="Instagram"
+                      onChange={onChange}
+                      placeholder="Enter artist's instagram"
+                      type="text"
+                      error={Boolean(errors.instagram)}
+                      aria-describedby="validation-basic-name"
+                    />
+                  )}
+                />
+                {errors.instagram && (
+                  <FormHelperText
+                    sx={{ color: "error.main" }}
+                    id="validation-basic-name"
+                  >
+                    This field is required
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormControl fullWidth>
+                <Controller
+                  name="youtube"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label="Youtube"
+                      onChange={onChange}
+                      placeholder="Enter artist's youtube"
+                      type="text"
+                      error={Boolean(errors.youtube)}
+                      aria-describedby="validation-basic-name"
+                    />
+                  )}
+                />
+                {errors.youtube && (
+                  <FormHelperText
+                    sx={{ color: "error.main" }}
+                    id="validation-basic-name"
+                  >
+                    This field is required
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormControl fullWidth>
+                <Controller
+                  name="soundcloud"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label="Soundcloud"
+                      onChange={onChange}
+                      placeholder="Enter artist's soundcloud"
+                      type="text"
+                      error={Boolean(errors.soundcloud)}
+                      aria-describedby="validation-basic-name"
+                    />
+                  )}
+                />
+                {errors.soundcloud && (
+                  <FormHelperText
+                    sx={{ color: "error.main" }}
+                    id="validation-basic-name"
+                  >
+                    This field is required
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormControl fullWidth>
+                <Controller
+                  name="spotify"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label="Spotify"
+                      onChange={onChange}
+                      placeholder="Enter artist's spotify"
+                      type="text"
+                      error={Boolean(errors.spotify)}
+                      aria-describedby="validation-basic-name"
+                    />
+                  )}
+                />
+                {errors.spotify && (
+                  <FormHelperText
+                    sx={{ color: "error.main" }}
+                    id="validation-basic-name"
+                  >
+                    This field is required
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormControl fullWidth>
+                <Controller
+                  name="description"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label="Description"
+                      onChange={onChange}
+                      placeholder="Enter artist's description"
+                      type="text"
+                      error={Boolean(errors.description)}
+                      aria-describedby="validation-basic-name"
+                    />
+                  )}
+                />
+                {errors.description && (
+                  <FormHelperText
+                    sx={{ color: "error.main" }}
+                    id="validation-basic-name"
+                  >
+                    This field is required
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12} sm={12} style={{ position: "relative" }}>
+              {errors.admin && (
+                <FormHelperText
+                  sx={{ color: "error.main", fontSize: 14, marginBottom: 2 }}
+                  id=""
+                >
+                  {!!errors.admin.message}
+                </FormHelperText>
+              )}
+              <div style={{ position: "relative" }}>
+                <Button
+                  size="medium"
+                  type="submit"
+                  variant="contained"
+                  disabled={isLoadingSubmit}
+                >
+                  {isLoadingSubmit ? (
+                    <CircularProgress size={24} color="inherit" />
+                  ) : (
+                    "Save"
+                  )}
+                </Button>
+              </div>
+            </Grid>
+          </Grid>
+        </form>
+      </CardContent>
     </Card>
   );
 };

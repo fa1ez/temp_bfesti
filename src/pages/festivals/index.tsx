@@ -13,19 +13,19 @@ import Typography from "@mui/material/Typography";
 import PageHeader from "src/@core/components/page-header";
 
 // ** Demo Components Imports
-import TableColumns from "src/views/table/data-grid/AllArtistsTableColumns";
-import { GetArtists } from "src/Client/request";
+import { GetFestivals } from "src/Client/request";
+import TableColumns from "src/views/table/data-grid/AllFestivalsTableColumns";
 
 const DataGrid = () => {
-  const [allArtists, setAllArtists] = useState([]);
+  const [allFestivals, setAllFestivals] = useState([]);
   const [trigger, setTrigger] = useState(false);
 
   useEffect(() => {
-    GetArtists().then((res: any) => {
+    GetFestivals().then((res: any) => {
       if (!res.error) {
-        setAllArtists(res.data);
+        setAllFestivals(res.data);
       } else {
-        setAllArtists([]);
+        setAllFestivals([]);
       }
     });
   }, [trigger]);
@@ -35,18 +35,18 @@ const DataGrid = () => {
       <PageHeader
         title={
           <Typography variant="h5">
-            <MuiLink>Artists</MuiLink>
+            <MuiLink>Festivals</MuiLink>
           </Typography>
         }
         subtitle={
           <Typography variant="body2">
-            This page shows all the artists in the system.
+            This page shows all the Festivals in the system.
           </Typography>
         }
       />
       <Grid item xs={12}>
         <TableColumns
-          row={allArtists}
+          row={allFestivals}
           trigger={trigger}
           setTrigger={setTrigger}
         />
