@@ -24,10 +24,7 @@ const DataGrid = () => {
   useEffect(() => {
     GetArtists().then((res: any) => {
       if (!res.error) {
-        const blogs = res.data.map((blog: any) => {
-          return { id: blog.Id, ...blog };
-        });
-        setAllArtists(blogs);
+        setAllArtists(res.data);
       } else {
         setAllArtists([]);
       }
@@ -39,12 +36,12 @@ const DataGrid = () => {
       <PageHeader
         title={
           <Typography variant="h5">
-            <MuiLink>Blogs</MuiLink>
+            <MuiLink>Artists</MuiLink>
           </Typography>
         }
         subtitle={
           <Typography variant="body2">
-            This page shows all the blogs in the system.
+            This page shows all the artists in the system.
           </Typography>
         }
       />

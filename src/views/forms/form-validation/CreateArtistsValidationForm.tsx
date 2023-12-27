@@ -27,8 +27,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 // ** Icon Imports
 
-import { AddArtists, CreateBlogs } from "src/Client/request";
+import { AddArtists } from "src/Client/request";
 import { Autocomplete, Checkbox } from "@mui/material";
+import moment from "moment";
 
 const GENRES_OPTIONS = [
   {
@@ -52,19 +53,32 @@ const schema = yup.object().shape({
   description: yup.string().required(),
 });
 
-const CreateArtistsValidationForm = () => {
-  // ** States
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
+const defaultValues = {
+  name: "",
+  dob: "",
+  birthplace: "",
+  generes: "",
+  website: "",
+  facebook: "",
+  instagram: "",
+  youtube: "",
+  soundcloud: "",
+  spotify: "",
+  description: "",
+};
 
+const CreateArtistsValidationForm = () => {
   // ** Hooks
   const {
     control,
-    setValue,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ mode: "onBlur", resolver: yupResolver(schema) });
+  } = useForm({
+    defaultValues,
+    mode: "onChange",
+    resolver: yupResolver(schema),
+  });
 
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false); // Add loading state for submit button
 
@@ -89,7 +103,7 @@ const CreateArtistsValidationForm = () => {
 
   return (
     <Card>
-      <CardHeader title="Blog Details" />
+      <CardHeader title="Artists Details" />
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={5}>
@@ -129,8 +143,11 @@ const CreateArtistsValidationForm = () => {
                   rules={{ required: true }}
                   render={({ field: { value, onChange } }) => (
                     <DatePicker
+                      selected={new Date()}
                       id="basic-input"
-                      onChange={(date: Date) => onChange(date)}
+                      onChange={(date: Date) =>
+                        onChange(moment(date).format("YYYY-MM-DD:HH:MM:SS"))
+                      }
                       placeholderText="Click to select a date"
                       customInput={<CustomInput label="Date of birth" />}
                     />

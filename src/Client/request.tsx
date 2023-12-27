@@ -38,10 +38,14 @@ export async function GetArtists() {
 }
 
 export async function AddArtists(data: any) {
+  const token = GetTokenAsync();
   const config = {
     method: "post",
     url: API_URL + "/artists/add",
     data: data,
+    headers: {
+      Authorization: "Bearer " + token,
+    },
   };
 
   return axios(config)
@@ -59,23 +63,15 @@ export async function AddArtists(data: any) {
       return { error: "Some error occured!:" + error };
     });
 }
-export async function updateBlog(data: any, id: any) {
-  const formData = new FormData();
-  for (const key in data) {
-    if (data.hasOwnProperty(key)) {
-      const value = data[key];
-      formData.append(key, value);
-    }
-  }
-  formData.append("badges", "modesty");
-  formData.append("badges", "honesty");
-  formData.append("badges", "Truth");
-  formData.append("blog_id", id);
-
+export async function updateArtist(data: any) {
+  const token = GetTokenAsync();
   const config = {
     method: "post",
-    url: API_URL + "/blogs/update-blog",
-    data: formData,
+    url: API_URL + "/artists/update",
+    data: data,
+    headers: {
+      Authorization: "Bearer " + token,
+    },
   };
 
   return axios(config)
@@ -117,33 +113,18 @@ export async function getBlogByID(id: any) {
       return { error: "Some error occured!:" + error };
     });
 }
-export async function imageToBlob(imageUrl: any) {
-  try {
-    const response = await fetch(API_URL + `/blogs/image?imageUrl=${imageUrl}`);
-    if (response.ok) {
-      // Use the response as needed (e.g., save it as a File)
-      const blob = await response.blob();
-      const file = new File([blob], "image.jpg", { type: "image/jpeg" });
 
-      return file;
-    } else {
-      console.error("Error fetching image:", response.statusText);
-
-      return null;
-    }
-  } catch (error) {
-    console.error("Error fetching image:", error);
-
-    return null;
-  }
-}
-
-export async function deleteBlog(id: number) {
+export async function deleteArtist(id: number) {
+  const token = GetTokenAsync();
   const config = {
-    method: "get",
-    url: API_URL + `/blogs/delete-blog?blog_id=${id}`,
+    method: "post",
+    url: API_URL + `/artists/delete`,
     headers: {
-      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    data: {
+      artist_Id: id,
+      is_deleted: true,
     },
   };
 
