@@ -147,7 +147,7 @@ const EditArtistsValidationForm = ({
                   name="dob"
                   control={control}
                   rules={{ required: true }}
-                  render={({ field: { value, onChange } }) => (
+                  render={({ field: { onChange } }) => (
                     <ReactDatePicker
                       selected={new Date()}
                       id="basic-input"
@@ -438,14 +438,6 @@ const EditArtistsValidationForm = ({
             </Grid>
 
             <Grid item xs={12} sm={12} style={{ position: "relative" }}>
-              {errors.admin && (
-                <FormHelperText
-                  sx={{ color: "error.main", fontSize: 14, marginBottom: 2 }}
-                  id=""
-                >
-                  {!!errors.admin.message}
-                </FormHelperText>
-              )}
               <div style={{ position: "relative" }}>
                 <Button
                   size="medium"

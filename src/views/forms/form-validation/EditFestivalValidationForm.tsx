@@ -582,14 +582,6 @@ const EditFestivalValidationForm = ({
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={12} style={{ position: "relative" }}>
-                {errors.admin && (
-                  <FormHelperText
-                    sx={{ color: "error.main", fontSize: 14, marginBottom: 2 }}
-                    id=""
-                  >
-                    {!!errors.admin.message}
-                  </FormHelperText>
-                )}
                 <div style={{ position: "relative" }}>
                   <Button
                     size="medium"
