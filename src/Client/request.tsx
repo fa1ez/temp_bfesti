@@ -252,3 +252,55 @@ export async function updateFestival(data: any) {
       return { error: "Some error occured!:" + error };
     });
 }
+
+export async function GetArtistFestivalById(id: number) {
+  const token = GetTokenAsync();
+  const config = {
+    method: "get",
+    url: API_URL + "/artistsfestivals/festivals-of-artist-by-id?artist_Id=" + id,
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  return axios(config)
+    .then((response) => {
+      if (response.data.responseCode == 200) {
+        return { data: response.data.response };
+      } else {
+        return { error: "Some error occured!:" + response.data.responseCode };
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+
+      return { error: "Some error occured!:" + error };
+    });
+}
+
+export async function AddArtistFestivals(data: any) {
+  const token = GetTokenAsync();
+  const config = {
+    method: "post",
+    url: API_URL + "/artistsfestivals/add",
+    data: data,
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  return axios(config)
+    .then((response) => {
+      console.log(response);
+      if (response.data.responseCode == 200) {
+        return { data: response.data.response };
+      } else {
+        return { error: "Some error occured!:" + response.data.responseCode };
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+
+      return { error: "Some error occured!:" + error };
+    });
+}

@@ -36,6 +36,20 @@ const navigation = (): VerticalNavItemsType => {
         },
       ],
     },
+    {
+      title: "Artists Festivals",
+      icon: "tabler:users",
+      children: [
+        {
+          title: "All Artist Festivals",
+          path: "/artistsfestivals",
+        },
+        {
+          title: "Add New",
+          path: "/artistsfestivals/AddNewArtistFestival",
+        },
+      ],
+    },
   ];
 };
 
